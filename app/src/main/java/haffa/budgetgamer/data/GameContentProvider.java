@@ -30,7 +30,6 @@ public class GameContentProvider extends ContentProvider {
         matcher.addURI(CONTENT_AUTHORITY, PATH_GAME, GAME);
         matcher.addURI(CONTENT_AUTHORITY, PATH_GAME + "/#", GAME_ID);
 
-
         return matcher;
     }
 
