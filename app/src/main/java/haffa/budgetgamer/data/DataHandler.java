@@ -1,6 +1,5 @@
 package haffa.budgetgamer.data;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -8,7 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
+import haffa.budgetgamer.util.RetriveMyApplicationContext;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -26,13 +27,14 @@ public class DataHandler {
     public final String LOG_TAG = DataHandler.class.getSimpleName();
     OkHttpClient client = new OkHttpClient();
     String jsonResponse;
-    
 
-    DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+
+    DatabaseHelper databaseHelper = new DatabaseHelper(RetriveMyApplicationContext.getAppContext());
     public void getData() throws Exception {
         Request request = new Request.Builder()
                 .url(BULK_DOWNLOAD_URL)
                 .build();
+
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -60,9 +62,10 @@ public class DataHandler {
                 String dealRating;
                 String savings;
                 String thumb;
+                //this method will ensure that the SQLite database isnt flooded with data
+                databaseHelper.dropAndRecreateDatabase();
                 try {
                     JSONArray jsonArray = new JSONArray(jsonResponse);
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         title = jsonObject.getString("title");
@@ -77,12 +80,20 @@ public class DataHandler {
                         Log.v(LOG_TAG, "cell nr " + i + " " + title + " " + dealID + " " + storeID + " "
                                 + gameID + " " + salePrice + " " + normalPrice + " " + dealRating + " "
                                 + savings + " " + thumb);
+                        Log.v(LOG_TAG, "saving record nr " + i);
                         databaseHelper.addGame(new Game(title, dealID, storeID, gameID, salePrice,
-                                normalPrice, dealRating, savings, thumb));
+                               normalPrice, dealRating, savings, thumb));
                     }
                 } catch (JSONException e) {
                     Log.v(LOG_TAG, "Unable to parse JSON file");
                     e.printStackTrace();
+                }
+                List<Game> games = databaseHelper.getAllGames();
+
+                for (Game game : games) {
+                    String log = "Id: " + game.getID() + " ,Name: " + game.getTitle() + " ,Phone: " + game.getSavings();
+                    // Writing Contacts to log
+                    Log.v("DATABSE CONTENT", log);
                 }
             }
         });

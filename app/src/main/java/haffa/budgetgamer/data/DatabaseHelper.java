@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -17,11 +18,15 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 
+    public static final String CONTENT_AUTHORITY = "haffa.budgetgamer";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
+
     static final String LOG_TAG = DatabaseHelper.class.getSimpleName();
     static final String DATABASE_NAME = "gamesales.db";
 
     private static final int DATABASE_VERSION = 1;
-    private static final String ID = "id";
+    static final String ID = "id";
     private static final String TABLE_NAME = "gameDeals";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_DEAL_ID = "deal_id";
@@ -33,9 +38,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DEAL_RATING = "deal_rating";
     private static final String COLUMN_THUMBNAIL = "thumbnail";
 
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -80,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_SAVINGS, game.getSavings());
         contentValues.put(COLUMN_THUMBNAIL, game.getThumb());
 
-        sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+        sqLiteDatabase.insertWithOnConflict(TABLE_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         sqLiteDatabase.close();
     }
 
@@ -131,6 +138,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return cursor.getCount();
+    }
+    public void dropAndRecreateDatabase(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+        String SQL_CREATE_DEAL_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
+                ID + " INTEGER PRIMARY KEY, " +
+                COLUMN_TITLE + " TEXT NOT NULL, " +
+                COLUMN_DEAL_ID + " TEXT NOT NULL, " +
+                COLUMN_STORE_ID + " TEXT NOT NULL, " +
+                COLUMN_GAME_ID + " TEXT NOT NULL, " +
+                COLUMN_SALE_PRICE + " TEXT NOT NULL, " +
+                COLUMN_NORMAL_PRICE + " TEXT NOT NULL, " +
+                COLUMN_SAVINGS + " TEXT NOT NULL, " +
+                COLUMN_DEAL_RATING + " TEXT NOT NULL, " +
+                COLUMN_THUMBNAIL + " TEXT NOT NULL " + " );";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_DEAL_TABLE);
     }
 
 }
