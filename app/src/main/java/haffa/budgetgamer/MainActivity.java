@@ -4,6 +4,9 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -20,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
             dataHandler.getData();
         } catch (Exception e) {
         }
-        //contentProviderTest();
+       contentProviderTest();
+        addFragments();
 }
 
     public void contentProviderTest(){
-        String CONTENT_AUTHORITY = "content://haffa.budgetgamer";
+        String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
         Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
         final String ID = "id";
         String COLUMN_TITLE = "title";
@@ -44,5 +48,12 @@ public class MainActivity extends AppCompatActivity {
                 // do something meaningful
             } while (cursor.moveToNext());
         }
+    }
+    public void addFragments(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = new GameListFragment();
+        fragmentTransaction.add(R.id.grid_fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 }

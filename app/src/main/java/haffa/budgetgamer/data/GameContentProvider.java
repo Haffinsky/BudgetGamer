@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
 
 public class GameContentProvider extends ContentProvider {
 
-    public static final String CONTENT_AUTHORITY = "content://haffa.budgetgamer";
+    public static final String CONTENT_AUTHORITY = "haffa.budgetgamer";
     private DatabaseHelper databaseHelper;
     public static final String PATH_GAME = "game";
     public static final int GAME = 100;
@@ -23,13 +23,9 @@ public class GameContentProvider extends ContentProvider {
     private static final UriMatcher uriMatcher = buildUriMatcher();
     public static UriMatcher buildUriMatcher(){
 
-
-        // All paths to the UriMatcher have a corresponding code to return
-        // when a match is found (the ints above).
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(CONTENT_AUTHORITY, PATH_GAME, GAME);
         matcher.addURI(CONTENT_AUTHORITY, PATH_GAME + "/#", GAME_ID);
-
         return matcher;
     }
 
@@ -45,7 +41,7 @@ public class GameContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(DatabaseHelper.DATABASE_NAME);
+        queryBuilder.setTables(DatabaseHelper.TABLE_NAME);
         int uriType = uriMatcher.match(uri);
         switch(uriType){
             case GAME:
@@ -73,7 +69,18 @@ public class GameContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        return null;
+        int uriType = uriMatcher.match(uri);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+        long id = 0;
+        switch (uriType){
+            case GAME:
+                id = sqLiteDatabase.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return Uri.parse(PATH_GAME + "/" + id);
     }
 
     @Override

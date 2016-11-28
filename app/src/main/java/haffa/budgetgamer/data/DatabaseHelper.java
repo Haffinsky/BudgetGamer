@@ -18,25 +18,33 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 
+    /*
+    <rant>
+    addGame and getGame methods in this class wait for the better days when Android people decide
+    to scrap Content Providers and we will be able to load and insert data from/to SQLite databases
+    like civilised people
+    </rant>
+    */
+
+
     public static final String CONTENT_AUTHORITY = "haffa.budgetgamer";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
 
     static final String LOG_TAG = DatabaseHelper.class.getSimpleName();
     static final String DATABASE_NAME = "gamesales.db";
-
-    private static final int DATABASE_VERSION = 1;
+    static final String TABLE_NAME = "gameDeals";
+    static final int DATABASE_VERSION = 1;
     static final String ID = "id";
-    private static final String TABLE_NAME = "gameDeals";
-    private static final String COLUMN_TITLE = "title";
-    private static final String COLUMN_DEAL_ID = "deal_id";
-    private static final String COLUMN_STORE_ID = "store_id";
-    private static final String COLUMN_GAME_ID = "game_id";
-    private static final String COLUMN_SALE_PRICE = "sale_price";
-    private static final String COLUMN_NORMAL_PRICE = "normal_price";
-    private static final String COLUMN_SAVINGS = "savings";
-    private static final String COLUMN_DEAL_RATING = "deal_rating";
-    private static final String COLUMN_THUMBNAIL = "thumbnail";
+    static final String COLUMN_TITLE = "title";
+    static final String COLUMN_DEAL_ID = "deal_id";
+    static final String COLUMN_STORE_ID = "store_id";
+    static final String COLUMN_GAME_ID = "game_id";
+    static final String COLUMN_SALE_PRICE = "sale_price";
+    static final String COLUMN_NORMAL_PRICE = "normal_price";
+    static final String COLUMN_SAVINGS = "savings";
+    static final String COLUMN_DEAL_RATING = "deal_rating";
+    static final String COLUMN_THUMBNAIL = "thumbnail";
 
 
     public DatabaseHelper(Context context) {
@@ -49,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String SQL_CREATE_DEAL_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 ID + " INTEGER PRIMARY KEY, " +
-                COLUMN_TITLE + " TEXT NOT NULL, " +
+                COLUMN_TITLE + " TEXT UNIQUE, " +
                 COLUMN_DEAL_ID + " TEXT NOT NULL, " +
                 COLUMN_STORE_ID + " TEXT NOT NULL, " +
                 COLUMN_GAME_ID + " TEXT NOT NULL, " +
@@ -139,6 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return cursor.getCount();
     }
+
     public void dropAndRecreateDatabase(){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);

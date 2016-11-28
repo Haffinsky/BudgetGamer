@@ -6,6 +6,10 @@ package haffa.budgetgamer.data;
 
 public class Game {
 
+    /*
+    This class supplements method from DatabaseHelper that deal with handling SQLite database operations
+    */
+
     /**
      * internalName : INDIEMEGABUNDLE
      * title : Indie Mega Bundle
