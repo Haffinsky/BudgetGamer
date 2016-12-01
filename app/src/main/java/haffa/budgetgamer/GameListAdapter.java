@@ -1,6 +1,5 @@
 package haffa.budgetgamer;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -32,11 +31,10 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     Context mContext;
     Cursor cursor;
+    View mEmptyView;
 
-
-    public GameListAdapter(Context context, Cursor cursor){
+    public GameListAdapter(Context context){
         mContext = context;
-        this.cursor = cursor;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,6 +60,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        /*
         Resources resources = mContext.getResources();
         ContentResolver contentResolver = mContext.getContentResolver();
         Cursor cursor =
@@ -70,6 +69,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
                         null,
                         null,
                         null);
+                        */
         cursor.moveToPosition(position);
         holder.titleView.setText(cursor.getString(0));
         holder.priceView.setText(cursor.getString(1) + "$");
@@ -79,7 +79,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         holder.savingsView.setText("-" + cursor.getInt(4) + "%");
 
         //icons downloaded from https://icons8.com
-
+        Resources resources = mContext.getResources();
         if (position == 0){
             holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.medalfirst));
         } else if (position == 1) {
@@ -96,6 +96,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
+        /*
         ContentResolver contentResolver = mContext.getContentResolver();
         Cursor cursor =
                 contentResolver.query(BASE_CONTENT_URI,
@@ -103,7 +104,14 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
                         null,
                         null,
                         null);
+*/
+        //null pointer exception here \/
         return cursor.getCount();
+    }
+    public void swapCursor(final Cursor cursor)
+    {
+        this.cursor = cursor;
+        this.notifyDataSetChanged();
     }
 
 }
