@@ -81,13 +81,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         //icons downloaded from https://icons8.com
         Resources resources = mContext.getResources();
         if (position == 0){
-            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.medalfirst));
+            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.medalfirstyellow));
         } else if (position == 1) {
-            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.medalsecond));
+            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.medalsecondyellow));
         }   else if (position == 2) {
-            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.medalthird));
+            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.medalthirdyellow));
         }   else {
-            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.justmedal));
+            holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.justmedalyellow));
         }
 
 
@@ -96,18 +96,12 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        /*
-        ContentResolver contentResolver = mContext.getContentResolver();
-        Cursor cursor =
-                contentResolver.query(BASE_CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        null);
-*/
-        //null pointer exception here \/
-        return cursor.getCount();
+        if(cursor == null){
+            return 0;
+        }
+        else return cursor.getCount();
     }
+
     public void swapCursor(final Cursor cursor)
     {
         this.cursor = cursor;

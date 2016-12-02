@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    android:layout_marginTop="5dp"
-    android:background="#424242"
+    android:layout_marginTop="4dp"
+    android:background="#607D8B"
     android:orientation="horizontal"
     android:elevation="6dp">
 
@@ -92,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/medal_view"
+            android:paddingRight="4dp"
             />
 
     </LinearLayout>

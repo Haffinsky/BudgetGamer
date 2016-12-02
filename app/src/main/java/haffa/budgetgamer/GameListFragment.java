@@ -63,6 +63,7 @@ public class GameListFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         getLoaderManager().initLoader(GAME_LOADER, null, this);
         View rootView = inflater.inflate(R.layout.game_list_fragment, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.game_recycler_view);
