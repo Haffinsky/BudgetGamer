@@ -1,6 +1,8 @@
 package haffa.budgetgamer;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Paint;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,29 +23,26 @@ import com.squareup.picasso.Picasso;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
 
-    String COLUMN_TITLE = "title";
-    String COLUMN_NORMAL_PRICE = "normal_price";
-    String COLUMN_THUMBNAIL = "thumbnail";
-    String COLUMN_SALE_PRICE = "sale_price";
-    String ID = "id";
-    String COLUMN_SAVINGS = "savings";
-    String[] projection = {COLUMN_TITLE, COLUMN_NORMAL_PRICE, COLUMN_THUMBNAIL, COLUMN_SALE_PRICE, COLUMN_SAVINGS};
+    String[] projection = {COLUMN_DEAL_ID};
     String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     Context mContext;
     Cursor cursor;
-    View mEmptyView;
+    static final String COLUMN_DEAL_ID = "deal_id";
+
+
 
     public GameListAdapter(Context context){
         mContext = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView thumbView, medalView;
         public TextView titleView, priceView, salesPriceView, savingsView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             thumbView = (ImageView) itemView.findViewById(R.id.grid_thumb_image);
             titleView = (TextView) itemView.findViewById(R.id.title_text_view);
             priceView = (TextView) itemView.findViewById(R.id.price_text_view);
@@ -50,6 +50,27 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
             medalView = (ImageView) itemView.findViewById(R.id.medal_view);
             savingsView = (TextView) itemView.findViewById(R.id.savings_text_view);
         }
+
+        @Override
+        public void onClick(View view) {
+            ContentResolver contentResolver = mContext.getContentResolver();
+            Cursor cursor =
+                    contentResolver.query(BASE_CONTENT_URI,
+                            projection,
+                            null,
+                            null,
+                            null);
+            if (cursor != null){
+                cursor.moveToPosition(getPosition());
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://www.cheapshark.com/redirect?dealID=" + cursor.getString(0)));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            } else {
+            Toast.makeText(view.getContext(), "position = " + getPosition(), Toast.LENGTH_SHORT).show();
+        }
+        }
+
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -60,17 +81,9 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        /*
-        Resources resources = mContext.getResources();
-        ContentResolver contentResolver = mContext.getContentResolver();
-        Cursor cursor =
-                contentResolver.query(BASE_CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        null);
-                        */
+
         cursor.moveToPosition(position);
+
         holder.titleView.setText(cursor.getString(0));
         holder.priceView.setText(cursor.getString(1) + "$");
         Picasso.with(mContext).load(cursor.getString(2)).resize(160, 80).into(holder.thumbView);
@@ -89,7 +102,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         }   else {
             holder.medalView.setImageDrawable(resources.getDrawable(R.drawable.justmedalyellow));
         }
-
 
 
     }
