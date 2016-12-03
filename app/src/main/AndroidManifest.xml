@@ -19,6 +19,9 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".data.GameWidgetRemoteViewsService"
+        android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
         <provider
             android:name=".data.GameContentProvider"
             android:authorities="haffa.budgetgamer"></provider>

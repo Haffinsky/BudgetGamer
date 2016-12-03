@@ -18,12 +18,12 @@ public class GameWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.game_widget);
         Intent svcIntent = new Intent(context, GameWidgetRemoteViewsService.class);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.game_widget);
         svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         svcIntent.setData(Uri.parse(
                 svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
-        views.setRemoteAdapter(appWidgetId, R.id.widgetListView,
+        views.setRemoteAdapter(R.id.widgetListView,
                 svcIntent);
 
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widgetListView);
