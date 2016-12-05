@@ -1,7 +1,6 @@
 package haffa.budgetgamer;
 
 
-import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,8 +20,6 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
-
-import haffa.budgetgamer.util.TinyDB;
 
 import static haffa.budgetgamer.util.RetriveMyApplicationContext.getAppContext;
 public class GameListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -76,23 +73,7 @@ public class GameListFragment extends Fragment implements LoaderManager.LoaderCa
 
         //calling the cursor here and passing list of deal IDs in shared preferences
         //it is done so because calling it in adapter slows the UI down a lot
-        ContentResolver contentResolver = getAppContext().getContentResolver();
-        Cursor cursor =
-                contentResolver.query(BASE_CONTENT_URI,
-                        projection1,
-                        null,
-                        null,
-                        null);
 
-        for (int i = 0; i < cursor.getCount(); i++){
-            cursor.moveToPosition(i);
-            listOfIds.add(i, cursor.getString(0));
-        }
-
-        cursor.close();
-        // passing data using sharedPreferences
-        TinyDB tinyDB = new TinyDB(getAppContext());
-        tinyDB.putListString("IDS", listOfIds);
 
         //initialize adMob AD
         MobileAds.initialize(getAppContext(), "ca-app-pub-3940256099942544~3347511713");

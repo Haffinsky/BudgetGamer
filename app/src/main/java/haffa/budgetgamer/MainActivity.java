@@ -17,6 +17,7 @@ import haffa.budgetgamer.data.DataHandler;
 
 public class MainActivity extends AppCompatActivity {
     String errorMsg = "No connection detected. Please connect your device to the Internet.";
+    public final String BULK_DOWNLOAD_URL = "http://www.cheapshark.com/api/1.0/deals?";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         if (isOnline() == true) {
             DataHandler dataHandler = new DataHandler();
             try {
-                dataHandler.getData();
+                dataHandler.downloadData(BULK_DOWNLOAD_URL);
             } catch (Exception e) {
             }
         } else {

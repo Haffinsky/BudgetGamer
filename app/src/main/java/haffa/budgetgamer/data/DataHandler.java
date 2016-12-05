@@ -3,21 +3,25 @@ package haffa.budgetgamer.data;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Headers;
+import haffa.budgetgamer.util.TinyDB;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import static haffa.budgetgamer.data.DatabaseHelper.COLUMN_DEAL_ID;
 import static haffa.budgetgamer.data.DatabaseHelper.COLUMN_DEAL_RATING;
@@ -34,8 +38,9 @@ import static haffa.budgetgamer.util.RetriveMyApplicationContext.getAppContext;
  * Created by Peker on 11/23/2016.
  */
 
-public class DataHandler {
+public class DataHandler extends AsyncTask<String, String, String> {
 
+    public ArrayList<String> listOfIds = new ArrayList<String>();
     String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public final String BULK_DOWNLOAD_URL = "http://www.cheapshark.com/api/1.0/deals?";
@@ -46,7 +51,10 @@ public class DataHandler {
     ContentValues contentValues = new ContentValues();
 
     DatabaseHelper databaseHelper = new DatabaseHelper(getAppContext());
-    public void getData() throws Exception {
+
+
+
+   /* public void getData() throws Exception {
         Request request = new Request.Builder()
                 .url(BULK_DOWNLOAD_URL)
                 .build();
@@ -66,8 +74,49 @@ public class DataHandler {
                 for (int i = 0, size = responseHeaders.size(); i < size; i++) {
                     Log.v(LOG_TAG, (responseHeaders.name(i) + ": " + responseHeaders.value(i)));
                 }
+*/
+   @Override
+   protected String doInBackground(String... params) {
 
-                jsonResponse = (response.body().string());
+       BufferedReader bufferedReader = null;
+       HttpURLConnection urlConnection = null;
+
+
+       try {
+           URL url = new URL(params[0]);
+           urlConnection = (HttpURLConnection) url.openConnection();
+           urlConnection.connect();
+
+           InputStream inputStream = urlConnection.getInputStream();
+           bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+           StringBuffer buffer = new StringBuffer();
+           String line = "";
+           while ((line = bufferedReader.readLine()) != null) {
+               buffer.append(line);
+           }
+           //if answer is ready at this point
+           return buffer.toString();
+
+
+       } catch (MalformedURLException e) {
+           e.printStackTrace();
+       } catch (IOException e) {
+           e.printStackTrace();
+       } finally {
+           if (urlConnection != null) {
+               urlConnection.disconnect();
+           }
+       }
+       //if there's no response
+       return null;
+   }
+
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+
+                jsonResponse = (result);
                 Log.v(LOG_TAG, jsonResponse);
                 String title;
                 String dealID;
@@ -99,6 +148,8 @@ public class DataHandler {
                         savings = jsonObject.getString("savings");
                         thumb = jsonObject.getString("thumb");
 
+                        listOfIds.add(i, dealID);
+
                         contentValues.put(COLUMN_TITLE, title);
                         contentValues.put(COLUMN_DEAL_ID, dealID);
                         contentValues.put(COLUMN_STORE_ID, storeID);
@@ -114,6 +165,9 @@ public class DataHandler {
                         //       normalPrice, dealRating, savings, thumb));
                         resolver.insert(BASE_CONTENT_URI, contentValues);
                     }
+                    TinyDB tinyDB = new TinyDB(getAppContext());
+                    tinyDB.putListString("IDS", listOfIds);
+
                 } catch (JSONException e) {
                     Log.v(LOG_TAG, "Unable to parse JSON file");
                     e.printStackTrace();
@@ -125,9 +179,19 @@ public class DataHandler {
                     Log.v("DATABSE CONTENT", log);
                 }
             }
-        });
+    public AsyncTask<String, String, String> downloadData(String url) {
+
+        //list of urls is cleared so that contents of GridView are cleared with every method call
+        ;   DataHandler dataHandler = new DataHandler();
+
+            return dataHandler.execute(url);
+
+        }
     }
-}
+
+
+
+
 
 
 
