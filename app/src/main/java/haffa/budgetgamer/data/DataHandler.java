@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import haffa.budgetgamer.util.TinyDB;
-import okhttp3.OkHttpClient;
 
 import static haffa.budgetgamer.data.DatabaseHelper.COLUMN_DEAL_ID;
 import static haffa.budgetgamer.data.DatabaseHelper.COLUMN_DEAL_RATING;
@@ -43,38 +42,12 @@ public class DataHandler extends AsyncTask<String, String, String> {
     public ArrayList<String> listOfIds = new ArrayList<String>();
     String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public final String BULK_DOWNLOAD_URL = "http://www.cheapshark.com/api/1.0/deals?";
     public final String LOG_TAG = DataHandler.class.getSimpleName();
-    OkHttpClient client = new OkHttpClient();
     String jsonResponse;
     ContentResolver resolver = getAppContext().getContentResolver();
     ContentValues contentValues = new ContentValues();
-
     DatabaseHelper databaseHelper = new DatabaseHelper(getAppContext());
 
-
-
-   /* public void getData() throws Exception {
-        Request request = new Request.Builder()
-                .url(BULK_DOWNLOAD_URL)
-                .build();
-
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                Headers responseHeaders = response.headers();
-                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                    Log.v(LOG_TAG, (responseHeaders.name(i) + ": " + responseHeaders.value(i)));
-                }
-*/
    @Override
    protected String doInBackground(String... params) {
 
@@ -110,7 +83,6 @@ public class DataHandler extends AsyncTask<String, String, String> {
        //if there's no response
        return null;
    }
-
 
     @Override
     protected void onPostExecute(String result) {
@@ -180,10 +152,7 @@ public class DataHandler extends AsyncTask<String, String, String> {
                 }
             }
     public AsyncTask<String, String, String> downloadData(String url) {
-
-        //list of urls is cleared so that contents of GridView are cleared with every method call
-        ;   DataHandler dataHandler = new DataHandler();
-
+           DataHandler dataHandler = new DataHandler();
             return dataHandler.execute(url);
 
         }

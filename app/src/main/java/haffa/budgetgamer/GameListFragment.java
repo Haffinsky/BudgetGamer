@@ -19,14 +19,11 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.crash.FirebaseCrash;
 
-import java.util.ArrayList;
-
 import static haffa.budgetgamer.util.RetriveMyApplicationContext.getAppContext;
 public class GameListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     RecyclerView recyclerView;
     GameListAdapter adapter;
-    public ArrayList<String> listOfIds = new ArrayList<String>();
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -36,7 +33,6 @@ public class GameListFragment extends Fragment implements LoaderManager.LoaderCa
     String COLUMN_THUMBNAIL = "thumbnail";
     String COLUMN_SALE_PRICE = "sale_price";
     String COLUMN_SAVINGS = "savings";
-    String[] projection1 = {"deal_id"};
     String[] projection = {COLUMN_TITLE, COLUMN_NORMAL_PRICE, COLUMN_THUMBNAIL, COLUMN_SALE_PRICE, COLUMN_SAVINGS};
     String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);

@@ -16,7 +16,6 @@ import com.google.firebase.crash.FirebaseCrash;
 import haffa.budgetgamer.data.DataHandler;
 
 public class MainActivity extends AppCompatActivity {
-    String errorMsg = "No connection detected. Please connect your device to the Internet.";
     public final String BULK_DOWNLOAD_URL = "http://www.cheapshark.com/api/1.0/deals?";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
             }
         } else {
-            Toast.makeText(getApplicationContext(), errorMsg,
+            Toast.makeText(getApplicationContext(), getString(R.string.errorMsg),
                     Toast.LENGTH_LONG).show();
         }
         FirebaseCrash.report(new Exception("My first Android non-fatal error"));
@@ -40,30 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 }
-    /*
-    public void contentProviderTest(){
-        String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
-        Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-        final String ID = "id";
-        String COLUMN_TITLE = "title";
-        ContentResolver resolver = getContentResolver();
-        String[] projection = new String[]{ID, COLUMN_TITLE};
-        Cursor cursor =
-                resolver.query(BASE_CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        null);
-        if (cursor.moveToFirst()) {
-            do {
-                int ids = cursor.getInt(0);
-                String title = cursor.getString(1);
-                Log.v("ContentProvider", String.valueOf(ids) + " "  + title);
-                // do something meaningful
-            } while (cursor.moveToNext());
-        }
 
-    }*/
     public void addFragments(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
