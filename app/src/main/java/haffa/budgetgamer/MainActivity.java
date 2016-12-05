@@ -1,28 +1,40 @@
 package haffa.budgetgamer;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 
 import haffa.budgetgamer.data.DataHandler;
 
 public class MainActivity extends AppCompatActivity {
-
+    String errorMsg = "No connection detected. Please connect your device to the Internet.";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DataHandler dataHandler = new DataHandler();
-        try {
-            dataHandler.getData();
-        } catch (Exception e) {
+
+
+        if (isOnline() == true) {
+            DataHandler dataHandler = new DataHandler();
+            try {
+                dataHandler.getData();
+            } catch (Exception e) {
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), errorMsg,
+                    Toast.LENGTH_LONG).show();
         }
         FirebaseCrash.report(new Exception("My first Android non-fatal error"));
+
         addFragments();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,4 +75,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         FirebaseCrash.log("Activity Resumed");
     }
+    public boolean isOnline() {
+        //performing connectivity check
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
 }

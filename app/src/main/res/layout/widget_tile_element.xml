@@ -2,25 +2,24 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginTop="4dp"
-    android:background="#607D8B"
+    android:layout_height="@dimen/widget_tile_element_height"
+    android:background="@color/prefColor"
     android:orientation="vertical"
     android:elevation="6dp">
 
 
         <TextView
-            android:paddingTop="10dp"
+            android:paddingTop="@dimen/savings_padding_bottom"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor"
             android:id="@+id/widget_title_text_view"
             android:ellipsize="end"
             android:scrollHorizontally="true"
             android:maxLines="1"
             android:gravity="center_horizontal"
-            android:textSize="15sp"/>
+            android:textSize="@dimen/widget_title_view_text_size"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,10 +31,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor"
             android:id="@+id/widget_savings_text_view"
             android:gravity="center"
-            android:textSize="40sp"
+            android:textSize="@dimen/savings_text_size"
             android:maxLines="1"
             />
 
@@ -50,11 +49,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor"
             android:id="@+id/widget_price_text_view"
             android:gravity="center"
             android:maxLines="1"
-            android:textSize="15sp"
+            android:textSize="@dimen/widget_title_view_text_size"
             />
 
 
@@ -62,10 +61,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/textColor"
             android:id="@+id/widget_new_price_text_view"
             android:textAlignment="center"
-            android:textSize="15sp"
+            android:textSize="@dimen/widget_title_view_text_size"
             />
         </LinearLayout>
         </LinearLayout>

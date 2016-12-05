@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEB3B"
+    android:background="?colorAccent"
     tools:context="haffa.budgetgamer.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -18,7 +18,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#37474F"
+        android:background="?colorPrimaryDark"
         android:id="@+id/toolbar"
         android:text=" "
         app:layout_scrollFlags="scroll|enterAlways"

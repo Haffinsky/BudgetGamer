@@ -1,6 +1,5 @@
 package haffa.budgetgamer;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,16 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import haffa.budgetgamer.util.TinyDB;
+
+import static haffa.budgetgamer.util.RetriveMyApplicationContext.getAppContext;
 
 /**
  * Created by Peker on 11/28/2016.
  */
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
-
+    ArrayList<String> listOfIds = new ArrayList<String>();
     String[] projection = {COLUMN_DEAL_ID};
     String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -53,25 +57,18 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            ContentResolver contentResolver = mContext.getContentResolver();
-            Cursor cursor =
-                    contentResolver.query(BASE_CONTENT_URI,
-                            projection,
-                            null,
-                            null,
-                            null);
-            if (cursor != null){
-                cursor.moveToPosition(getPosition());
+            TinyDB tinyDB = new TinyDB(getAppContext());
+            listOfIds = tinyDB.getListString("IDS");
+
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("http://www.cheapshark.com/redirect?dealID=" + cursor.getString(0)));
+                intent.setData(Uri.parse("http://www.cheapshark.com/redirect?dealID=" + listOfIds.get(getPosition())));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
-            } else {
-            Toast.makeText(view.getContext(), "position = " + getPosition(), Toast.LENGTH_SHORT).show();
-        }
+
+         }
         }
 
-    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(mContext).inflate(R.layout.tile_element, parent, false);
