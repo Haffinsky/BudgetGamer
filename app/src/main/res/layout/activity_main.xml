@@ -12,7 +12,6 @@
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="4dp"
         android:gravity="bottom"
         android:fitsSystemWindows="true">
 

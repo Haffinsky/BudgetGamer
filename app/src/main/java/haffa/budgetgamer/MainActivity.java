@@ -1,15 +1,13 @@
 package haffa.budgetgamer;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
+import com.google.firebase.crash.FirebaseCrash;
 
 import haffa.budgetgamer.data.DataHandler;
 
@@ -24,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
             dataHandler.getData();
         } catch (Exception e) {
         }
-       contentProviderTest();
+        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
         addFragments();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 }
-
+    /*
     public void contentProviderTest(){
         String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
         Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -51,12 +49,18 @@ public class MainActivity extends AppCompatActivity {
                 // do something meaningful
             } while (cursor.moveToNext());
         }
-    }
+
+    }*/
     public void addFragments(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = new GameListFragment();
         fragmentTransaction.replace(R.id.grid_fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        FirebaseCrash.log("Activity Resumed");
     }
 }

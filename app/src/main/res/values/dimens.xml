@@ -9,4 +9,17 @@ Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="adview_margin_bottom">20dp</dimen>
+    <dimen name="divider_line">4dp</dimen>
+    <dimen name="tile_element_elevation">6dp</dimen>
+    <dimen name="price_text_size">22sp</dimen>
+    <dimen name="thumb_view_margin_right">5dp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="savings_text_size">40sp</dimen>
+    <dimen name="savings_padding_bottom">10dp</dimen>
+    <dimen name="medal_view_padding_right">4dp</dimen>
+    <dimen name="title_view_padding_top">10dp</dimen>
+    <dimen name="tile_element_height">130dp</dimen>
+    <dimen name="widget_tile_element_height">100dp</dimen>
+    <dimen name="widget_title_view_text_size">15sp</dimen>
 </resources>
