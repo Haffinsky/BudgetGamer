@@ -53,5 +53,6 @@ dependencies {
     compile 'com.google.firebase:firebase-ads:10.0.1'
     compile 'com.google.firebase:firebase-crash:10.0.1'
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.eminayar.panterdialog:panter-dialog:0.0.2.1'
 }
 apply plugin: 'com.google.gms.google-services'

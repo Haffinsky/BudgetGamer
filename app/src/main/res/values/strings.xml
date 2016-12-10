@@ -8,5 +8,10 @@
     <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id">ca-app-pub-5771331575820444/1375388210</string>
     <string name="errorMsg">No connection detected. Please connect your device to the Internet.</string>
-
+    <string-array name="sample_array">
+        <item>BY DEAL RATING (DEFAULT)</item>
+        <item>BY LOWEST PRICE</item>
+        <item>BY HIGHEST SAVINGS</item>
+        <item>SHOW ONLY STEAM DEALS</item>
+    </string-array>
 </resources>

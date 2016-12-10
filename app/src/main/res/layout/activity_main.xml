@@ -8,6 +8,8 @@
     android:background="?colorAccent"
     tools:context="haffa.budgetgamer.MainActivity">
 
+
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
@@ -24,7 +26,8 @@
         app:layout_scrollFlags="scroll|enterAlways"
         >
 
-        <ImageView
+
+       <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/logo"
@@ -32,12 +35,30 @@
             android:contentDescription="@string/app_name" />
 
     </android.support.v7.widget.Toolbar>
+
+
 </android.support.design.widget.AppBarLayout>
+
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/grid_fragment_container"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-    </android.support.design.widget.CoordinatorLayout>
+        </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:src="@drawable/sortaction"
+        app:fabSize="normal"
+        android:scaleType="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/grid_fragment_container"
+        android:id="@+id/floatingActionButton"
+        app:layout_anchorGravity="top|right"
+        android:layout_gravity="center_vertical|left" />
+
+
+</android.support.design.widget.CoordinatorLayout>
