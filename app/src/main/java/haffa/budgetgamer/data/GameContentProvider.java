@@ -55,6 +55,7 @@ public class GameContentProvider extends ContentProvider {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         Cursor cursor = queryBuilder.query(sqLiteDatabase, strings, s,
                 strings1, null, null, s1);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }
