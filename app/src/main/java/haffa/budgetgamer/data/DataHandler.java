@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -39,6 +40,7 @@ import static haffa.budgetgamer.util.RetriveMyApplicationContext.getAppContext;
 
 public class DataHandler extends AsyncTask<String, String, String> {
 
+    RecyclerView recyclerView;
     public ArrayList<String> listOfIds = new ArrayList<String>();
     String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -104,6 +106,7 @@ public class DataHandler extends AsyncTask<String, String, String> {
                 This method will ensure that the SQLite database isnt flooded with data. The implementation
                 is temporary and will be in use until I figure out how to schedule timed download tasks*/
 
+
                 databaseHelper.dropAndRecreateDatabase();
 
                 try {
@@ -137,6 +140,8 @@ public class DataHandler extends AsyncTask<String, String, String> {
                         //       normalPrice, dealRating, savings, thumb));
                         resolver.insert(BASE_CONTENT_URI, contentValues);
                     }
+
+
                     TinyDB tinyDB = new TinyDB(getAppContext());
                     tinyDB.putListString("IDS", listOfIds);
 

@@ -95,22 +95,18 @@ public class MainActivity extends AppCompatActivity {
                             case 0:
                                 Log.v("case 1", "case 1");
                                 dataHandler.downloadData(BULK_DOWNLOAD_URL);
-                                addFragments();
                                 break;
                             case 1:
                                 Log.v("case 2", "case 2");
                                 dataHandler.downloadData(LOWEST_PRICE_URL);
-                                addFragments();
                                 break;
                             case 2:
                                 Log.v("case 3", "case 3");
                                 dataHandler.downloadData(SAVINGS_PRICE_URL);
-                                addFragments();
                                 break;
                             case 3:
                                 Log.v("case 4", "case 4");
                                 dataHandler.downloadData(STEAM_URL);
-                                addFragments();
                                 break;
                             default:
                                 return;
