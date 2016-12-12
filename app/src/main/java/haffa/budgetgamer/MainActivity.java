@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public final String BULK_DOWNLOAD_URL = "http://www.cheapshark.com/api/1.0/deals?";
     public final String LOWEST_PRICE_URL = "http://www.cheapshark.com/api/1.0/deals?sortBy=Price";
     public final String SAVINGS_PRICE_URL = "http://www.cheapshark.com/api/1.0/deals?sortBy=Savings";
-    public final String STEAM_URL = "http://www.cheapshark.com/api/1.0/deals?storeID=6";
+    public final String STEAM_URL = "http://www.cheapshark.com/api/1.0/deals?storeID=1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
     public void performDialogOperation(){
 
         PanterDialog panterDialog = new PanterDialog(this);
-                panterDialog.setHeaderBackground(R.drawable.pattern_bg_orange)
-                .setHeaderLogo(R.drawable.logo)
+                panterDialog.setHeaderBackground(R.color.colorPrimary)
+                .setHeaderLogo(R.drawable.finallogo)
                 .setDialogType(DialogType.SINGLECHOICE)
                 .isCancelable(false)
                 .items(R.array.sample_array, new OnSingleCallbackConfirmListener() {
@@ -93,30 +92,23 @@ public class MainActivity extends AppCompatActivity {
                         DataHandler dataHandler = new DataHandler();
                         switch(pos){
                             case 0:
-                                Log.v("case 1", "case 1");
                                 dataHandler.downloadData(BULK_DOWNLOAD_URL);
                                 break;
                             case 1:
-                                Log.v("case 2", "case 2");
                                 dataHandler.downloadData(LOWEST_PRICE_URL);
                                 break;
                             case 2:
-                                Log.v("case 3", "case 3");
                                 dataHandler.downloadData(SAVINGS_PRICE_URL);
                                 break;
                             case 3:
-                                Log.v("case 4", "case 4");
                                 dataHandler.downloadData(STEAM_URL);
                                 break;
                             default:
                                 return;
                         }
-
-
                     }
                 });
                 panterDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 panterDialog.show();
     }
-
 }

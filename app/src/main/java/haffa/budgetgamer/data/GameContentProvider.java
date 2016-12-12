@@ -29,8 +29,6 @@ public class GameContentProvider extends ContentProvider {
         return matcher;
     }
 
-
-
     @Override
     public boolean onCreate() {
         databaseHelper = new DatabaseHelper(getContext());

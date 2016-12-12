@@ -135,7 +135,6 @@ public class DataHandler extends AsyncTask<String, String, String> {
                         contentValues.put(COLUMN_SAVINGS, savings);
                         contentValues.put(COLUMN_THUMBNAIL, thumb);
 
-                        Log.v(LOG_TAG, "saving record nr " + i);
                         //databaseHelper.addGame(new Game(title, dealID, storeID, gameID, salePrice,
                         //       normalPrice, dealRating, savings, thumb));
                         resolver.insert(BASE_CONTENT_URI, contentValues);
@@ -146,15 +145,14 @@ public class DataHandler extends AsyncTask<String, String, String> {
                     tinyDB.putListString("IDS", listOfIds);
 
                 } catch (JSONException e) {
-                    Log.v(LOG_TAG, "Unable to parse JSON file");
                     e.printStackTrace();
                 }
                 List<Game> games = databaseHelper.getAllGames();
 
                 for (Game game : games) {
                     String log = "Id: " + game.getID() + " ,Name: " + game.getTitle() + " , Savings: " + game.getSavings();
-                    Log.v("DATABSE CONTENT", log);
-                }
+                    //Log.v("DATABSE CONTENT", log);
+    }
             }
     public AsyncTask<String, String, String> downloadData(String url) {
            DataHandler dataHandler = new DataHandler();

@@ -72,7 +72,7 @@ public class GameListFragment extends Fragment implements LoaderManager.LoaderCa
 
 
         //initialize adMob AD
-        MobileAds.initialize(getAppContext(), "ca-app-pub-3940256099942544~3347511713");
+        MobileAds.initialize(getAppContext(), getString(R.string.banner_ad_unit_id));
         //firing off loader
         getLoaderManager().initLoader(GAME_LOADER, null, this);
 
