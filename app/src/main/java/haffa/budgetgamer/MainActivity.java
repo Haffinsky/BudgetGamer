@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public void performDialogOperation(){
 
         PanterDialog panterDialog = new PanterDialog(this);
-                panterDialog.setHeaderBackground(R.color.colorPrimary)
+                panterDialog.setHeaderBackground(R.color.colorPrimaryDark)
                 .setHeaderLogo(R.drawable.finallogo)
                 .setDialogType(DialogType.SINGLECHOICE)
                 .isCancelable(false)

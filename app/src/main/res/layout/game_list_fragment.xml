@@ -24,7 +24,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/adview_margin_bottom"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id_test">
+        ads:adUnitId="@string/banner_ad_unit_id">
     </com.google.android.gms.ads.AdView>
 
 
