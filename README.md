@@ -4,3 +4,4 @@ A simple app that presents game deals in a single, sortable list. Feel free to d
 
 ![Alt text](https://http://imgur.com/a/kkFE7)
 ![alt tag](http://imgur.com/a/kkFE7)
+http://imgur.com/a/kkFE7
