@@ -40,11 +40,9 @@ import static haffa.budgetgamer.util.RetriveMyApplicationContext.getAppContext;
 
 public class DataHandler extends AsyncTask<String, String, String> {
 
-    RecyclerView recyclerView;
     public ArrayList<String> listOfIds = new ArrayList<String>();
     String CONTENT_AUTHORITY = "haffa.budgetgamer/game";
     Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public final String LOG_TAG = DataHandler.class.getSimpleName();
     String jsonResponse;
     ContentResolver resolver = getAppContext().getContentResolver();
     ContentValues contentValues = new ContentValues();
@@ -55,7 +53,6 @@ public class DataHandler extends AsyncTask<String, String, String> {
 
        BufferedReader bufferedReader = null;
        HttpURLConnection urlConnection = null;
-
 
        try {
            URL url = new URL(params[0]);
@@ -69,7 +66,6 @@ public class DataHandler extends AsyncTask<String, String, String> {
            while ((line = bufferedReader.readLine()) != null) {
                buffer.append(line);
            }
-           //if answer is ready at this point
            return buffer.toString();
 
 
@@ -82,7 +78,6 @@ public class DataHandler extends AsyncTask<String, String, String> {
                urlConnection.disconnect();
            }
        }
-       //if there's no response
        return null;
    }
 
@@ -91,7 +86,6 @@ public class DataHandler extends AsyncTask<String, String, String> {
         super.onPostExecute(result);
 
                 jsonResponse = (result);
-                Log.v(LOG_TAG, jsonResponse);
                 String title;
                 String dealID;
                 String storeID;
@@ -102,12 +96,7 @@ public class DataHandler extends AsyncTask<String, String, String> {
                 String savings;
                 String thumb;
 
-                /*
-                This method will ensure that the SQLite database isnt flooded with data. The implementation
-                is temporary and will be in use until I figure out how to schedule timed download tasks*/
-
-
-                databaseHelper.dropAndRecreateDatabase();
+        databaseHelper.dropAndRecreateDatabase();
 
                 try {
                     JSONArray jsonArray = new JSONArray(jsonResponse);
@@ -135,8 +124,6 @@ public class DataHandler extends AsyncTask<String, String, String> {
                         contentValues.put(COLUMN_SAVINGS, savings);
                         contentValues.put(COLUMN_THUMBNAIL, thumb);
 
-                        //databaseHelper.addGame(new Game(title, dealID, storeID, gameID, salePrice,
-                        //       normalPrice, dealRating, savings, thumb));
                         resolver.insert(BASE_CONTENT_URI, contentValues);
                     }
 
@@ -147,13 +134,7 @@ public class DataHandler extends AsyncTask<String, String, String> {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                List<Game> games = databaseHelper.getAllGames();
-
-                for (Game game : games) {
-                    String log = "Id: " + game.getID() + " ,Name: " + game.getTitle() + " , Savings: " + game.getSavings();
-                    //Log.v("DATABSE CONTENT", log);
     }
-            }
     public AsyncTask<String, String, String> downloadData(String url) {
            DataHandler dataHandler = new DataHandler();
             return dataHandler.execute(url);

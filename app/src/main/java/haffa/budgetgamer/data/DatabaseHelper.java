@@ -17,21 +17,6 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-
-    /*
-    <rant>
-    addGame and getGame methods in this class wait for the better days when Android people decide
-    to scrap Content Providers and we will be able to load and insert data from/to SQLite databases
-    like civilised people
-    </rant>
-    */
-
-
-    public static final String CONTENT_AUTHORITY = "haffa.budgetgamer";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
-
-    public static final String LOG_TAG = DatabaseHelper.class.getSimpleName();
     public static final String DATABASE_NAME = "gamesales.db";
     public static final String TABLE_NAME = "gameDeals";
     public static final int DATABASE_VERSION = 1;
@@ -77,5 +62,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         sqLiteDatabase.execSQL(SQL_CREATE_DEAL_TABLE);
     }
-
 }
