@@ -43,15 +43,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         FirebaseCrash.report(new Exception("My first Android non-fatal error"));
-
         addFragments();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
